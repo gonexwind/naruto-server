@@ -34,22 +34,31 @@ class HeroRepositoryImpl : HeroRepository {
             nextPage = null
         }
         return mapOf(
-            PREV_PAGE_KEY to prevPage,
-            NEXT_PAGE_KEY to nextPage
+            PREV_PAGE_KEY to prevPage, NEXT_PAGE_KEY to nextPage
         )
     }
 
     override suspend fun searchHeroes(name: String): ApiResponse {
-        return ApiResponse(success = false)
+        return ApiResponse(success = true, message = "ok", heroes = findHeroes(name))
+    }
+
+    private fun findHeroes(name: String?): List<Hero> {
+        val founded = mutableListOf<Hero>()
+        return if (!name.isNullOrEmpty()) {
+            heroes.forEach { (_, heroes) ->
+                heroes.forEach { hero ->
+                    if (hero.name.lowercase().contains(name.lowercase())) {
+                        founded.add(hero)
+                    }
+                }
+            }
+            founded
+        } else emptyList()
     }
 
     override val heroes: Map<Int, List<Hero>> by lazy {
         mapOf(
-            1 to page1,
-            2 to page2,
-            3 to page3,
-            4 to page4,
-            5 to page5
+            1 to page1, 2 to page2, 3 to page3, 4 to page4, 5 to page5
         )
     }
 
@@ -64,28 +73,15 @@ class HeroRepositoryImpl : HeroRepository {
             month = "July",
             day = "23rd",
             family = listOf(
-                "Fugaku",
-                "Mikoto",
-                "Itachi",
-                "Sarada",
-                "Sakura"
+                "Fugaku", "Mikoto", "Itachi", "Sarada", "Sakura"
             ),
             abilities = listOf(
-                "Sharingan",
-                "Rinnegan",
-                "Sussano",
-                "Amateratsu",
-                "Intelligence"
+                "Sharingan", "Rinnegan", "Sussano", "Amateratsu", "Intelligence"
             ),
             natureTypes = listOf(
-                "Lightning",
-                "Fire",
-                "Wind",
-                "Earth",
-                "Water"
+                "Lightning", "Fire", "Wind", "Earth", "Water"
             )
-        ),
-        Hero(
+        ), Hero(
             id = 2,
             name = "Naruto",
             image = "/images/naruto.jpg",
@@ -95,26 +91,15 @@ class HeroRepositoryImpl : HeroRepository {
             month = "Oct",
             day = "10th",
             family = listOf(
-                "Minato",
-                "Kushina",
-                "Boruto",
-                "Himawari",
-                "Hinata"
+                "Minato", "Kushina", "Boruto", "Himawari", "Hinata"
             ),
             abilities = listOf(
-                "Rasengan",
-                "Rasen-Shuriken",
-                "Shadow Clone",
-                "Senin Mode"
+                "Rasengan", "Rasen-Shuriken", "Shadow Clone", "Senin Mode"
             ),
             natureTypes = listOf(
-                "Wind",
-                "Earth",
-                "Lava",
-                "Fire"
+                "Wind", "Earth", "Lava", "Fire"
             )
-        ),
-        Hero(
+        ), Hero(
             id = 3,
             name = "Sakura",
             image = "/images/sakura.jpg",
@@ -124,21 +109,13 @@ class HeroRepositoryImpl : HeroRepository {
             month = "Mar",
             day = "28th",
             family = listOf(
-                "Kizashi",
-                "Mebuki",
-                "Sarada",
-                "Sasuke"
+                "Kizashi", "Mebuki", "Sarada", "Sasuke"
             ),
             abilities = listOf(
-                "Chakra Control",
-                "Medical Ninjutsu",
-                "Strength",
-                "Intelligence"
+                "Chakra Control", "Medical Ninjutsu", "Strength", "Intelligence"
             ),
             natureTypes = listOf(
-                "Earth",
-                "Water",
-                "Fire"
+                "Earth", "Water", "Fire"
             )
         )
     )
@@ -153,25 +130,15 @@ class HeroRepositoryImpl : HeroRepository {
             month = "Mar",
             day = "27th",
             family = listOf(
-                "Naruto",
-                "Hinata",
-                "Hanabi",
-                "Himawari",
-                "Kawaki"
+                "Naruto", "Hinata", "Hanabi", "Himawari", "Kawaki"
             ),
             abilities = listOf(
-                "Karma",
-                "Jogan",
-                "Rasengan",
-                "Intelligence"
+                "Karma", "Jogan", "Rasengan", "Intelligence"
             ),
             natureTypes = listOf(
-                "Lightning",
-                "Wind",
-                "Water"
+                "Lightning", "Wind", "Water"
             )
-        ),
-        Hero(
+        ), Hero(
             id = 5,
             name = "Sarada",
             image = "/images/sarada.jpg",
@@ -181,21 +148,15 @@ class HeroRepositoryImpl : HeroRepository {
             month = "Mar",
             day = "31st",
             family = listOf(
-                "Sasuke Uchiha",
-                "Sakura Uchiha"
+                "Sasuke Uchiha", "Sakura Uchiha"
             ),
             abilities = listOf(
-                "Sharingan",
-                "Strength",
-                "Intelligence"
+                "Sharingan", "Strength", "Intelligence"
             ),
             natureTypes = listOf(
-                "Lightning",
-                "Wind",
-                "Fire"
+                "Lightning", "Wind", "Fire"
             )
-        ),
-        Hero(
+        ), Hero(
             id = 6,
             name = "Mitsuki",
             image = "/images/mitsuki.jpg",
@@ -205,17 +166,13 @@ class HeroRepositoryImpl : HeroRepository {
             month = "Jul",
             day = "25th",
             family = listOf(
-                "Orochimaru",
-                "Log"
+                "Orochimaru", "Log"
             ),
             abilities = listOf(
-                "Senin Mode",
-                "Transformation",
-                "Intelligence"
+                "Senin Mode", "Transformation", "Intelligence"
             ),
             natureTypes = listOf(
-                "Lightning",
-                "Wind"
+                "Lightning", "Wind"
             )
         )
     )
@@ -233,15 +190,12 @@ class HeroRepositoryImpl : HeroRepository {
                 "Kokatsu"
             ),
             abilities = listOf(
-                "Karma",
-                "Transformation",
-                "Strength"
+                "Karma", "Transformation", "Strength"
             ),
             natureTypes = listOf(
                 "Fire"
             )
-        ),
-        Hero(
+        ), Hero(
             id = 8,
             name = "Orochimaru",
             image = "/images/orochimaru.jpg",
@@ -251,23 +205,15 @@ class HeroRepositoryImpl : HeroRepository {
             month = "Oct",
             day = "27th",
             family = listOf(
-                "Mitsuki",
-                "Log"
+                "Mitsuki", "Log"
             ),
             abilities = listOf(
-                "Senin Mode",
-                "Transformation",
-                "Science"
+                "Senin Mode", "Transformation", "Science"
             ),
             natureTypes = listOf(
-                "Lightning",
-                "Wind",
-                "Fire",
-                "Earth",
-                "Water"
+                "Lightning", "Wind", "Fire", "Earth", "Water"
             )
-        ),
-        Hero(
+        ), Hero(
             id = 9,
             name = "Kakashi",
             image = "/images/kakashi.png",
@@ -280,15 +226,10 @@ class HeroRepositoryImpl : HeroRepository {
                 "Sakumo"
             ),
             abilities = listOf(
-                "Intelligence",
-                "Strength"
+                "Intelligence", "Strength"
             ),
             natureTypes = listOf(
-                "Lightning",
-                "Wind",
-                "Fire",
-                "Earth",
-                "Water"
+                "Lightning", "Wind", "Fire", "Earth", "Water"
             )
         )
     )
@@ -306,17 +247,12 @@ class HeroRepositoryImpl : HeroRepository {
                 "Otsutsuki Clan"
             ),
             abilities = listOf(
-                "Sukunahikona",
-                "Daikokuten",
-                "Byakugan",
-                "Space–Time",
-                "Intelligence"
+                "Sukunahikona", "Daikokuten", "Byakugan", "Space–Time", "Intelligence"
             ),
             natureTypes = listOf(
                 "Fire"
             )
-        ),
-        Hero(
+        ), Hero(
             id = 11,
             name = "Momoshiki",
             image = "/images/momoshiki.jpg",
@@ -329,19 +265,12 @@ class HeroRepositoryImpl : HeroRepository {
                 "Otsutsuki Clan"
             ),
             abilities = listOf(
-                "Rinnegan",
-                "Byakugan",
-                "Strength"
+                "Rinnegan", "Byakugan", "Strength"
             ),
             natureTypes = listOf(
-                "Fire",
-                "Lightning",
-                "Wind",
-                "Water",
-                "Earth"
+                "Fire", "Lightning", "Wind", "Water", "Earth"
             )
-        ),
-        Hero(
+        ), Hero(
             id = 12,
             name = "Urashiki",
             image = "/images/urashiki.jpg",
@@ -354,15 +283,10 @@ class HeroRepositoryImpl : HeroRepository {
                 "Otsutsuki Clan"
             ),
             abilities = listOf(
-                "Space–Time",
-                "Rinnegan",
-                "Byakugan"
+                "Space–Time", "Rinnegan", "Byakugan"
             ),
             natureTypes = listOf(
-                "Fire",
-                "Lightning",
-                "Wind",
-                "Earth"
+                "Fire", "Lightning", "Wind", "Earth"
             )
         )
     )
@@ -380,15 +304,12 @@ class HeroRepositoryImpl : HeroRepository {
                 "Unknown"
             ),
             abilities = listOf(
-                "White Karma",
-                "Transformation",
-                "Genjutsu"
+                "White Karma", "Transformation", "Genjutsu"
             ),
             natureTypes = listOf(
                 "Unknown"
             )
-        ),
-        Hero(
+        ), Hero(
             id = 14,
             name = "Amado",
             image = "/images/amado.jpg",
@@ -401,15 +322,12 @@ class HeroRepositoryImpl : HeroRepository {
                 "Unknown"
             ),
             abilities = listOf(
-                "Science",
-                "Intelligence",
-                "Trickery"
+                "Science", "Intelligence", "Trickery"
             ),
             natureTypes = listOf(
                 "Unknown"
             )
-        ),
-        Hero(
+        ), Hero(
             id = 15,
             name = "Koji",
             image = "/images/koji.jpg",
@@ -422,13 +340,10 @@ class HeroRepositoryImpl : HeroRepository {
                 "Jiraiya"
             ),
             abilities = listOf(
-                "Senin Mode",
-                "Rasengan",
-                "Shadow Clone"
+                "Senin Mode", "Rasengan", "Shadow Clone"
             ),
             natureTypes = listOf(
-                "Fire",
-                "Earth"
+                "Fire", "Earth"
             )
         )
     )
